@@ -1,5 +1,6 @@
+
 void web_server_setup(){
-  Serial.println(F("[Web server] Web server initialization"));
+  Serial.println(F("[HTTP] Web server initialization"));
 
   web_server.on("/", handle_root);
   web_server.on("/stream", HTTP_GET, handle_stream);
@@ -11,7 +12,15 @@ void web_server_setup(){
   web_server.begin();
 }
 
+
+
+
+
+
+
 void handle_stream(void) {
+
+  Serial.println(F("[HTTP] '/stream' requested"));
 
   // Initialize an empty frame buffer
   camera_fb_t * fb = NULL;
@@ -48,24 +57,28 @@ void handle_stream(void) {
 
 
 void handle_frame(void) {
+
+  Serial.println(F("[HTTP] '/frame' requested"));
   
-  WiFiClient client = web_server.client();
-
-  // Initialize an empty frame buffer
-  camera_fb_t * fb = NULL;
-
+  
   // Frame capture
+  Serial.print(F("[Camera] Capturing frame "));
+  camera_fb_t * fb = NULL;
   fb = esp_camera_fb_get();
+  Serial.println(F("[Camera] Frame captured"));
+
 
   // Send response header
+  Serial.println(F("[HTTP] Sending frameBuffer..."));
   String response = "HTTP/1.1 200 OK\r\n";
-  response += "Access-Control-Allow-Origin: *\r\n";
+  response += "Access-Control-Allow-Origin: *\r\n"; // CORS
   response += "Content-disposition: inline; filename=capture.jpg\r\n";
   response += "Content-type: image/jpeg\r\n\r\n";
   web_server.sendContent(response);
   
   // Send frame
-  client.write((char *)fb->buf, fb->len);
+  web_server.client().write((char *)fb->buf, fb->len);
+  Serial.println(F("[HTTP] FrameBuffer sent"));
   
   // Empty the buffer
   if(fb) {
@@ -76,20 +89,21 @@ void handle_frame(void) {
 
 
 void handle_update_form(){
+  Serial.println(F("[HTTP] '/update_form' requested"));
+  
   String html = pre_main + update_form + post_main;
   web_server.sendHeader("Connection", "close");
   
   web_server.send(200, "text/html", html);
 }
 
+
 void handle_update(){
   String upload_status;
-  if(Update.hasError()){
-    upload_status = "Upload failed";
-  }
-  else {
-    upload_status = "Upload success";
-  }
+  
+  if(Update.hasError()) upload_status = "Upload failed";
+  else upload_status = "Upload success";
+  
   String html = pre_main + upload_status + post_main;
   web_server.sendHeader("Connection", "close");
   web_server.send(200, "text/html", html);
@@ -105,14 +119,17 @@ void handle_update_upload() {
     if (!Update.begin()) { //start with max available size
       Update.printError(Serial);
     }
-  } else if (upload.status == UPLOAD_FILE_WRITE) {
+  }
+  else if (upload.status == UPLOAD_FILE_WRITE) {
     if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
       Update.printError(Serial);
     }
-  } else if (upload.status == UPLOAD_FILE_END) {
+  }
+  else if (upload.status == UPLOAD_FILE_END) {
     if (Update.end(true)) { //true to set the size to the current progress
       Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
-    } else {
+    }
+    else {
       Update.printError(Serial);
     }
     Serial.setDebugOutput(false);
@@ -126,6 +143,11 @@ void handle_not_found() {
 }
 
 void handle_root() {
+  Serial.println(F("[HTTP] '/' requested"));
+  
+  String root_main = "<h2>Home</h2>"
+    "<div>IP address: "+ WiFi.localIP().toString() +"</div>";
+  
   String html = pre_main + root_main + post_main;
   web_server.sendHeader("Connection", "close");
   web_server.send(200, "text/html", html);
