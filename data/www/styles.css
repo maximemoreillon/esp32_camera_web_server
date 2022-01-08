@@ -1,0 +1,25 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  display: flex;
+}
+
+nav a {
+  margin: 0.25em;
+}
+
+
+nav a:first-child {
+  margin-left: 0;
+}
+
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left; width: 200px;
+}

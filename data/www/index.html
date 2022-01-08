@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>%DEVICE_NAME%</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1>%DEVICE_NAME%</h1>
+
+    <form class="" action="/settings" method="post">
+
+      <h2>Camera</h2>
+      <table>
+        <tr>
+          <th>Frame</th>
+          <td>
+            <a href="/frame">Frame</a>
+          </td>
+        </tr>
+        <tr>
+          <th>Stream</th>
+          <td>
+            <a href="/stream">Stream</a>
+          </td>
+        </tr>
+      </table>
+
+      <h2>Device</h2>
+      <table>
+        <tr>
+          <th>Type</th>
+          <td>%DEVICE_TYPE%</td>
+        </tr>
+        <tr>
+          <th>Name</th>
+          <td>%DEVICE_NAME%</td>
+        </tr>
+        <tr>
+          <th>Nickname</th>
+          <td>
+            <input
+              type="text"
+              name="nickname"
+              value="%DEVICE_NICKNAME%"
+              placeholder='Device nickname'>
+          </td>
+        </tr>
+        <tr>
+          <th>State</th>
+          <td>%DEVICE_STATE%</td>
+        </tr>
+      </table>
+
+      <h2>Wifi</h2>
+
+      <table>
+        <tr>
+          <th>Mode</th>
+          <td>%WIFI_MODE%</td>
+        </tr>
+        <tr>
+          <th>SSID</th>
+          <td>
+            <input
+              type="search"
+              list="wifi_list"
+              name="wifi_ssid"
+              value="%WIFI_SSID%"
+              placeholder='Wifi SSID'>
+
+            <datalist id="wifi_list">
+              <!-- <option value="Chocolate"> -->
+              %WIFI_DATALIST_OPTIONS%
+            </datalist>
+
+          </td>
+        </tr>
+        <tr>
+          <th>Password</th>
+          <td>
+            <input
+              type="password"
+              name="wifi_password"
+              value="%WIFI_PASSWORD%"
+              placeholder='Wifi password'>
+          </td>
+        </tr>
+      </table>
+
+
+
+
+
+      <h2>MQTT</h2>
+
+      <table>
+        <tr>
+          <th>Broker host</th>
+          <td>
+            <input
+              type="text"
+              name="mqtt_broker_host"
+              value="%MQTT_BROKER_HOST%"
+              placeholder='MQTT broker host'>
+          </td>
+        </tr>
+        <tr>
+          <th>Broker port</th>
+          <td>
+            <input
+              type="text"
+              name="mqtt_broker_port"
+              value="%MQTT_BROKER_PORT%"
+              placeholder='MQTT broker port'>
+          </td>
+        </tr>
+        <tr>
+          <th>SSL</th>
+          <td>
+            <select name="mqtt_broker_secure" id="mqtt_secure_select">
+              <option value="yes" selected>Yes</option>
+              <option value="no">No</option>
+            </select>
+          </td>
+
+        </tr>
+        <tr>
+          <th>Username</th>
+          <td>
+            <input
+              type="text"
+              name="mqtt_username"
+              value="%MQTT_USERNAME%"
+              placeholder='MQTT username'>
+          </td>
+        </tr>
+        <tr>
+          <th>Password</th>
+          <td>
+            <input
+              type="password"
+              name="mqtt_password"
+              value="%MQTT_PASSWORD%"
+              placeholder='MQTT password'>
+          </td>
+        </tr>
+        <tr>
+          <th>Connection status</th>
+          <td>%MQTT_STATUS%</td>
+        </tr>
+        <tr>
+          <th>Status topic</th>
+          <td>%MQTT_STATUS_TOPIC%</td>
+        </tr>
+        <tr>
+          <th>Command topic</th>
+          <td>%MQTT_COMMAND_TOPIC%</td>
+        </tr>
+      </table>
+
+      <h2>Apply settings</h2>
+      <table>
+        <tr>
+          <td colspan="2">
+            <input
+              type="submit"
+              name=""
+              value="Save">
+          </td>
+        </tr>
+      </table>
+
+
+    </form>
+
+    <form
+      method='POST'
+      action='/update'
+      enctype='multipart/form-data'>
+
+      <h2>Firmware</h2>
+      <table>
+        <tr>
+          <th>Firmware version</th>
+          <td>%DEVICE_FIRMWARE_VERSION%</td>
+        </tr>
+        <tr>
+          <th>IoT Kernel version</th>
+          <td>%IOT_KERNEL_VERSION%</td>
+        </tr>
+        <tr>
+          <th>
+            Firmware update
+          </th>
+          <td>
+            <input
+              type='file'
+              name='update'
+              accept=".bin">
+            <input
+              type='submit'
+              value='Update'>
+          </td>
+        </tr>
+      </table>
+
+    </form>
+
+    <form
+      method='POST'
+      action='/upload'
+      enctype='multipart/form-data'>
+
+      <h2>File upload</h2>
+      <table>
+        <tr>
+          <th>
+            File upload
+          </th>
+          <td>
+            <input type='file' name='update'>
+            <input type='submit' value='Update'>
+          </td>
+        </tr>
+      </table>
+
+    </form>
+
+    <script type="text/javascript">
+      const mqtt_secure_select = document.getElementById('mqtt_secure_select')
+      mqtt_secure_select.value = "%MQTT_BROKER_SECURE%"
+    </script>
+
+
+  </body>
+</html>

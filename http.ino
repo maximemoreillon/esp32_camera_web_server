@@ -157,9 +157,7 @@ class AsyncJpegStreamResponse: public AsyncAbstractResponse {
 };
 
 
-void notFound(AsyncWebServerRequest *request) {
-  request->send(404, "text/plain", "Not found");
-}
+
 
 void sendJpg(AsyncWebServerRequest *request){
   Serial.println("[HTTP] /frame requested");
@@ -198,69 +196,14 @@ void streamJpg(AsyncWebServerRequest *request){
   request->send(response);
 }
 
-void handleDoUpdate(AsyncWebServerRequest *request, const String& filename, size_t index, uint8_t *data, size_t len, bool final) {
+
+void http_config(){
+
+  Serial.println("[HTTP] Server config");
   
-  if (!index){
-    Serial.println("[Web server] Firmware update started");
-    //size_t content_len = request->contentLength();
-    // if filename includes spiffs, update the spiffs partition
-    int cmd = (filename.indexOf("spiffs") > -1) ? U_PART : U_FLASH;
+
+  iot_kernel.http.on("/frame", HTTP_GET, sendJpg);
+  iot_kernel.http.on("/stream", HTTP_GET, streamJpg);
 
 
-    if (!Update.begin(UPDATE_SIZE_UNKNOWN, cmd)) {
-      Update.printError(Serial);
-    }
-  }
-
-  if (Update.write(data, len) != len) {
-    Update.printError(Serial);
-  }
-
-  if (final) {
-    AsyncWebServerResponse *response = request->beginResponse(302, "text/plain", "Please wait while the device reboots");
-    response->addHeader("Refresh", "20");  
-    response->addHeader("Location", "/");
-    request->send(response);
-    if (!Update.end(true)){
-      Update.printError(Serial);
-    } else {
-      Serial.println("[Web server] Firmware update complete");
-      Serial.flush();
-      ESP.restart();
-    }
-  }
-}
-
-void handle_not_found(AsyncWebServerRequest *request) {
-  request->send(404, "text/html", "Not found");
-}
-
-void handle_update_form(AsyncWebServerRequest *request){
-  String html = apply_html_template(firmware_update_form);
-  request->send(200, "text/html", html);
-}
-
-void handle_homepage(AsyncWebServerRequest *request) {
-  String html = apply_html_template(get_homepage());
-  request->send(200, "text/html", html);
-}
-
-void server_init(){
-
-  Serial.println("[HTTP] Web server init");
-  
-  server.on("/", HTTP_GET, handle_homepage);
-  server.on("/frame", HTTP_GET, sendJpg);
-  server.on("/stream", HTTP_GET, streamJpg);
-
-  server.on("/update", HTTP_GET, handle_update_form);
-  server.on("/update", HTTP_POST,
-    [](AsyncWebServerRequest *request) {},
-    [](AsyncWebServerRequest *request, const String& filename, size_t index, uint8_t *data,
-                  size_t len, bool final) {handleDoUpdate(request, filename, index, data, len, final);}
-  );
-
-  server.onNotFound(handle_not_found);
-
-  server.begin();
 }
