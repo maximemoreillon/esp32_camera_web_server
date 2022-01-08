@@ -29,10 +29,10 @@ void camera_init(){
   config.pixel_format = PIXFORMAT_JPEG;
 
   // Frame parameters
-  //config.frame_size = FRAMESIZE_UXGA;
+  config.frame_size = FRAMESIZE_UXGA;
   //config.frame_size = FRAMESIZE_SXGA;
   //config.frame_size = FRAMESIZE_XGA;
-  config.frame_size = FRAMESIZE_VGA;
+  //config.frame_size = FRAMESIZE_VGA;
   config.jpeg_quality = 10;
   config.fb_count = 2;
 
@@ -42,4 +42,10 @@ void camera_init(){
     Serial.printf("[CAMERA] init failed with error 0x%x", err);
     return;
   }
+
+  Serial.println("[CAMERA] init OK");
+
+  //drop down frame size for higher initial frame rate
+  sensor_t * s = esp_camera_sensor_get();
+  s->set_framesize(s, FRAMESIZE_VGA);
 }
