@@ -14,7 +14,7 @@
 #define DEVICE_FIRMWARE_VERSION "0.2.1"
 
 
-IotKernel iot_kernel("kernel","0.0.3"); 
+IotKernel iot_kernel(DEVICE_TYPE,DEVICE_FIRMWARE_VERSION); 
 
 
 
