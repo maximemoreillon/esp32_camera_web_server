@@ -34,7 +34,9 @@ void handle_stream(void) {
   // Sending actual content
   WiFiClient client = web_server.client();
 
-  while (client.connected()) {
+  long stream_start_time = millis();
+
+  while (client.connected() && millis() - stream_start_time < 60000) {
     
     // Frame capture
     fb = esp_camera_fb_get();
@@ -53,6 +55,8 @@ void handle_stream(void) {
       fb = NULL;
     }
   }
+
+  Serial.println("Stream terminated");
 }
 
 
@@ -65,7 +69,7 @@ void handle_frame(void) {
   Serial.print(F("[Camera] Capturing frame "));
   camera_fb_t * fb = NULL;
   fb = esp_camera_fb_get();
-  Serial.println(F("[Camera] Frame captured"));
+  Serial.println(F("OK"));
 
 
   // Send response header

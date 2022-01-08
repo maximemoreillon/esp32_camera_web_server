@@ -15,9 +15,9 @@
 #include "credentials.h";
 
 //#include "pin_mapping_ai_thinker.h";
-//#include "pin_mapping_t-journal.h";
+#include "pin_mapping_t-journal.h";
 //#include "pin_mapping_t-camera.h";
-#include "pin_mapping_t-camera_plus.h";
+//#include "pin_mapping_t-camera_plus.h";
 
 
 WebServer web_server(80);

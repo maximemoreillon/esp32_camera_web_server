@@ -30,7 +30,9 @@ void camera_init(){
 
   // Frame parameters
   //config.frame_size = FRAMESIZE_UXGA;
-  config.frame_size = FRAMESIZE_SXGA;
+  //config.frame_size = FRAMESIZE_SXGA;
+  //config.frame_size = FRAMESIZE_XGA;
+  config.frame_size = FRAMESIZE_VGA;
   config.jpeg_quality = 10;
   config.fb_count = 2;
 
