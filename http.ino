@@ -33,8 +33,18 @@ class AsyncFrameResponse: public AsyncAbstractResponse {
     }
       
     ~AsyncFrameResponse(){
+      // EXPERIMENT FROM HERE
+      Serial.println("GOODBYE AsyncFrameResponse");
+      esp_camera_fb_return(fb);
+      fb = nullptr;
+      // EXPERIMENT TO HERE
+
+      
       // Destructor: clears frame buffer
-      if(fb != nullptr) esp_camera_fb_return(fb);
+//      if(fb != nullptr) {
+//        Serial.println("GOODBYE FRAME BUFFER");
+//        esp_camera_fb_return(fb);
+//      }
     }
     
     bool _sourceValid() const { 
@@ -163,6 +173,7 @@ void sendJpg(AsyncWebServerRequest *request){
   Serial.println("[HTTP] /frame requested");
   
   camera_fb_t * fb = esp_camera_fb_get();
+
   if (fb == NULL) {
     log_e("Camera frame failed");
     request->send(501);
@@ -171,6 +182,9 @@ void sendJpg(AsyncWebServerRequest *request){
 
   // Note: Images are in JPEG because camera configured as such in camera.ino
   AsyncFrameResponse * response = new AsyncFrameResponse(fb, JPG_CONTENT_TYPE);
+  
+  
+  
   if (response == NULL) {
     log_e("Response alloc failed");
     request->send(501);
@@ -181,6 +195,7 @@ void sendJpg(AsyncWebServerRequest *request){
   return;
 
 }
+
 
 
 void streamJpg(AsyncWebServerRequest *request){
@@ -203,7 +218,8 @@ void http_config(){
   
 
   iot_kernel.http.on("/frame", HTTP_GET, sendJpg);
-  iot_kernel.http.on("/stream", HTTP_GET, streamJpg);
+//  iot_kernel.http.on("/frame", HTTP_GET, sendJpgSimple);
+//  iot_kernel.http.on("/stream", HTTP_GET, streamJpg);
 
 
 }

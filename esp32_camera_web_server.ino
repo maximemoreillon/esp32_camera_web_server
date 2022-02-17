@@ -4,10 +4,19 @@
 
 #include "IotKernel.h"
 #include "esp_camera.h"
-#include "pin_mapping_ai_thinker.h"
-//#include "pin_mapping_t-journal.h"
-//#include "pin_mapping_t-camera.h"
-//#include "pin_mapping_t-camera_plus.h"
+
+// Select camera model
+//#define CAMERA_MODEL_WROVER_KIT // Has PSRAM
+//#define CAMERA_MODEL_ESP_EYE // Has PSRAM
+//#define CAMERA_MODEL_M5STACK_PSRAM // Has PSRAM
+//#define CAMERA_MODEL_M5STACK_V2_PSRAM // M5Camera version B Has PSRAM
+//#define CAMERA_MODEL_M5STACK_WIDE // Has PSRAM
+//#define CAMERA_MODEL_M5STACK_ESP32CAM // No PSRAM
+//#define CAMERA_MODEL_M5STACK_UNITCAM // No PSRAM
+#define CAMERA_MODEL_AI_THINKER // Has PSRAM
+//#define CAMERA_MODEL_TTGO_T_JOURNAL // No PSRAM
+
+#include "camera_pins.h"
 
 //Device info
 #define DEVICE_TYPE "camera"
