@@ -218,8 +218,7 @@ void http_config(){
   
 
   iot_kernel.http.on("/frame", HTTP_GET, sendJpg);
-//  iot_kernel.http.on("/frame", HTTP_GET, sendJpgSimple);
-//  iot_kernel.http.on("/stream", HTTP_GET, streamJpg);
+  iot_kernel.http.on("/stream", HTTP_GET, streamJpg);
 
 
 }
