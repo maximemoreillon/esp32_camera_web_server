@@ -1,0 +1,16 @@
+{
+  "wifi": {
+    "ssid": "YOURSSID",
+    "password": "YOURPASSWORD"
+  },
+  "mqtt": {
+    "broker": {
+      "host": "",
+      "port": 1883,
+      "secure": "no"
+    },
+    "username": "MQTTUSERNAME",
+    "password": "MQTTPASSWORD"
+  },
+  "nickname": "Camera"
+}
