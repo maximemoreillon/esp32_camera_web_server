@@ -12,6 +12,7 @@ In order to upload static files served by the web server, the [Arduino ESP32 fil
 
 Moreover, the following libraries are needed:
 
+* [IoT Kernel](https://github.com/maximemoreillon/iot-kernel)
 * [PubSubClient](https://github.com/knolleary/pubsubclient/releases/tag/v2.8)
 * [AsyncTCP](https://github.com/me-no-dev/AsyncTCP)
 * [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
