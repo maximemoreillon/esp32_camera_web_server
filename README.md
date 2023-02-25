@@ -6,17 +6,7 @@ The frame and stream serving logic is based Me-no-dev's code, available at https
 
 ## Requirements and dependencies
 
-This sketch requires version 2.x of the ESP32 core for Arduino.
-
-In order to upload static files served by the web server, the [Arduino ESP32 filesystem uploader](https://github.com/lorol/arduino-esp32fs-plugin) must be installed.
-
-Moreover, the following libraries are needed:
-
-* [IoT Kernel](https://github.com/maximemoreillon/iot-kernel)
-* [PubSubClient](https://github.com/knolleary/pubsubclient/releases/tag/v2.8)
-* [AsyncTCP](https://github.com/me-no-dev/AsyncTCP)
-* [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
-
+This sketch requires the ESP32 core for Arduino asd well as the [IoT Kernel](https://github.com/maximemoreillon/iot-kernel) library.
 
 ## Usage
 

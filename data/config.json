@@ -1,11 +1,11 @@
 {
   "wifi": {
-    "ssid": "YOURSSID",
-    "password": "YOURPASSWORD"
+    "ssid": "WIFISSID",
+    "password": "WIFIPASSWORD"
   },
   "mqtt": {
     "broker": {
-      "host": "",
+      "host": "192.168.1.2",
       "port": 1883,
       "secure": "no"
     },
