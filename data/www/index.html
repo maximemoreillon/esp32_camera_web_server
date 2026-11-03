@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>%DEVICE_NAME%</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>%DEVICE_NAME%</h1>
+
+    <nav>
+      <a href="/frame">Frame</a>
+      <a href="/stream">Stream</a>
+    </nav>
+
+    <form class="" action="/settings" method="post">
+      <h2>Device</h2>
+      <table>
+        <tr>
+          <th>Type</th>
+          <td>%DEVICE_TYPE%</td>
+        </tr>
+        <tr>
+          <th>Name</th>
+          <td>%DEVICE_NAME%</td>
+        </tr>
+        <tr>
+          <th>Nickname</th>
+          <td>
+            <input
+              type="text"
+              name="nickname"
+              value="%DEVICE_NICKNAME%"
+              placeholder="Device nickname"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>Hostname</th>
+          <td>
+            <input
+              type="text"
+              name="hostname"
+              value="%DEVICE_HOSTNAME%"
+              placeholder="Device hostname"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>Admin password</th>
+          <td>
+            <input
+              type="password"
+              autocomplete="new-password"
+              name="admin_password"
+              placeholder="Leave blank to keep current"
+            />
+            <label>
+              <input type="checkbox" name="admin_password_clear" />
+              Clear
+            </label>
+            <br />
+            <small>
+              Currently %ADMIN_PASSWORD_STATUS%. Protects this page (username:
+              admin) and, if at least 8 characters, the access point.
+            </small>
+          </td>
+        </tr>
+      </table>
+
+      <h2>Wifi</h2>
+
+      <table>
+        <tr>
+          <th>Mode</th>
+          <td>%WIFI_MODE%</td>
+        </tr>
+        <tr>
+          <th>SSID</th>
+          <td>
+            <input
+              type="text"
+              name="wifi_ssid"
+              value="%WIFI_SSID%"
+              placeholder="Wifi SSID"
+            />
+            <!-- <input
+              type="search"
+              list="wifi_list"
+              name="wifi_ssid"
+              value="%WIFI_SSID%"
+              placeholder="Wifi SSID"
+            />
+
+            <datalist id="wifi_list">
+              %WIFI_DATALIST_OPTIONS%
+            </datalist> -->
+          </td>
+        </tr>
+        <tr>
+          <th>Password</th>
+          <td>
+            <input
+              type="password"
+              autocomplete="new-password"
+              name="wifi_password"
+              value="%WIFI_PASSWORD%"
+              placeholder="Leave blank to keep current"
+            />
+            <label>
+              <input type="checkbox" name="wifi_password_clear" />
+              Clear
+            </label>
+          </td>
+        </tr>
+      </table>
+
+      <h2>MQTT</h2>
+      <p>Leave MQTT broker host empty to disable MQTT</p>
+      <table>
+        <tr>
+          <th>Broker host</th>
+          <td>
+            <input
+              type="text"
+              name="mqtt_broker_host"
+              value="%MQTT_BROKER_HOST%"
+              placeholder="MQTT broker host"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>Broker port</th>
+          <td>
+            <input
+              type="text"
+              name="mqtt_broker_port"
+              value="%MQTT_BROKER_PORT%"
+              placeholder="MQTT broker port"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>SSL</th>
+          <td>
+            <select name="mqtt_broker_secure" id="mqtt_secure_select">
+              <option value="yes" selected>Yes</option>
+              <option value="no">No</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>Username</th>
+          <td>
+            <input
+              type="text"
+              name="mqtt_username"
+              value="%MQTT_USERNAME%"
+              placeholder="MQTT username"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>Password</th>
+          <td>
+            <input
+              type="password"
+              autocomplete="new-password"
+              name="mqtt_password"
+              value="%MQTT_PASSWORD%"
+              placeholder="Leave blank to keep current"
+            />
+            <label>
+              <input type="checkbox" name="mqtt_password_clear" />
+              Clear
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <th>Connection status</th>
+          <td>%MQTT_STATUS%</td>
+        </tr>
+        <tr>
+          <th>Base topic</th>
+          <td>%MQTT_BASE_TOPIC%</td>
+        </tr>
+      </table>
+
+      <h2>Apply settings</h2>
+      <table>
+        <tr>
+          <td colspan="2">
+            <input type="submit" name="" value="Save" />
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <form method="POST" action="/update" enctype="multipart/form-data">
+      <h2>Firmware</h2>
+      <table>
+        <tr>
+          <th>Firmware version</th>
+          <td>%DEVICE_FIRMWARE_VERSION%</td>
+        </tr>
+        <tr>
+          <th>IoT Kernel version</th>
+          <td>%IOT_KERNEL_VERSION%</td>
+        </tr>
+        <tr>
+          <th>Firmware update</th>
+          <td>
+            <input type="file" name="update" accept=".bin" />
+            <input type="submit" value="Update" />
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+      <h2>File upload</h2>
+      <table>
+        <tr>
+          <th>File upload</th>
+          <td>
+            <input type="file" name="file" />
+            <input type="submit" value="Upload" />
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <script type="text/javascript">
+      const mqtt_secure_select = document.getElementById("mqtt_secure_select");
+      mqtt_secure_select.value = "%MQTT_BROKER_SECURE%";
+    </script>
+  </body>
+</html>
