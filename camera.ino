@@ -1,4 +1,4 @@
-void camera_init(){
+bool camera_init(){
   
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
@@ -15,8 +15,8 @@ void camera_init(){
   config.pin_pclk = PCLK_GPIO_NUM;
   config.pin_vsync = VSYNC_GPIO_NUM;
   config.pin_href = HREF_GPIO_NUM;
-  config.pin_sscb_sda = SIOD_GPIO_NUM;
-  config.pin_sscb_scl = SIOC_GPIO_NUM;
+  config.pin_sccb_sda = SIOD_GPIO_NUM;
+  config.pin_sccb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
   config.xclk_freq_hz = 20000000;
@@ -45,8 +45,8 @@ void camera_init(){
   // camera init
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
-    Serial.printf("Camera init failed with error 0x%x", err);
-    return;
+    Serial.printf("[CAMERA] init failed with error 0x%x\n", err);
+    return false;
   }
 
   sensor_t * s = esp_camera_sensor_get();
@@ -66,5 +66,6 @@ void camera_init(){
 #endif
 
   Serial.println("[CAMERA] init OK");
+  return true;
 
 }

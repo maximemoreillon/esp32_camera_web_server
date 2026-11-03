@@ -4,6 +4,7 @@ body {
 
 nav {
   display: flex;
+  gap: 0.5em;
 }
 
 nav a {

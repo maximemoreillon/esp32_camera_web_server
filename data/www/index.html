@@ -9,23 +9,12 @@
   <body>
     <h1>%DEVICE_NAME%</h1>
 
-    <form class="" action="/settings" method="post">
-      <h2>Camera</h2>
-      <table>
-        <tr>
-          <th>Frame</th>
-          <td>
-            <a href="/frame">Frame</a>
-          </td>
-        </tr>
-        <tr>
-          <th>Stream</th>
-          <td>
-            <a href="/stream">Stream</a>
-          </td>
-        </tr>
-      </table>
+    <nav>
+      <a href="/frame">Frame</a>
+      <a href="/stream">Stream</a>
+    </nav>
 
+    <form class="" action="/settings" method="post">
       <h2>Device</h2>
       <table>
         <tr>
@@ -59,8 +48,24 @@
           </td>
         </tr>
         <tr>
-          <th>State</th>
-          <td>%DEVICE_STATE%</td>
+          <th>Admin password</th>
+          <td>
+            <input
+              type="password"
+              autocomplete="new-password"
+              name="admin_password"
+              placeholder="Leave blank to keep current"
+            />
+            <label>
+              <input type="checkbox" name="admin_password_clear" />
+              Clear
+            </label>
+            <br />
+            <small>
+              Currently %ADMIN_PASSWORD_STATUS%. Protects this page (username:
+              admin) and, if at least 8 characters, the access point.
+            </small>
+          </td>
         </tr>
       </table>
 
@@ -75,6 +80,12 @@
           <th>SSID</th>
           <td>
             <input
+              type="text"
+              name="wifi_ssid"
+              value="%WIFI_SSID%"
+              placeholder="Wifi SSID"
+            />
+            <!-- <input
               type="search"
               list="wifi_list"
               name="wifi_ssid"
@@ -83,9 +94,8 @@
             />
 
             <datalist id="wifi_list">
-              <!-- <option value="Chocolate"> -->
               %WIFI_DATALIST_OPTIONS%
-            </datalist>
+            </datalist> -->
           </td>
         </tr>
         <tr>
@@ -93,16 +103,21 @@
           <td>
             <input
               type="password"
+              autocomplete="new-password"
               name="wifi_password"
               value="%WIFI_PASSWORD%"
-              placeholder="Wifi password"
+              placeholder="Leave blank to keep current"
             />
+            <label>
+              <input type="checkbox" name="wifi_password_clear" />
+              Clear
+            </label>
           </td>
         </tr>
       </table>
 
       <h2>MQTT</h2>
-
+      <p>Leave MQTT broker host empty to disable MQTT</p>
       <table>
         <tr>
           <th>Broker host</th>
@@ -151,10 +166,15 @@
           <td>
             <input
               type="password"
+              autocomplete="new-password"
               name="mqtt_password"
               value="%MQTT_PASSWORD%"
-              placeholder="MQTT password"
+              placeholder="Leave blank to keep current"
             />
+            <label>
+              <input type="checkbox" name="mqtt_password_clear" />
+              Clear
+            </label>
           </td>
         </tr>
         <tr>
@@ -162,12 +182,8 @@
           <td>%MQTT_STATUS%</td>
         </tr>
         <tr>
-          <th>Status topic</th>
-          <td>%MQTT_STATUS_TOPIC%</td>
-        </tr>
-        <tr>
-          <th>Command topic</th>
-          <td>%MQTT_COMMAND_TOPIC%</td>
+          <th>Base topic</th>
+          <td>%MQTT_BASE_TOPIC%</td>
         </tr>
       </table>
 
@@ -208,16 +224,16 @@
         <tr>
           <th>File upload</th>
           <td>
-            <input type="file" name="update" />
-            <input type="submit" value="Update" />
+            <input type="file" name="file" />
+            <input type="submit" value="Upload" />
           </td>
         </tr>
       </table>
     </form>
 
     <script type="text/javascript">
-      const mqtt_secure_select = document.getElementById("mqtt_secure_select")
-      mqtt_secure_select.value = "%MQTT_BROKER_SECURE%"
+      const mqtt_secure_select = document.getElementById("mqtt_secure_select");
+      mqtt_secure_select.value = "%MQTT_BROKER_SECURE%";
     </script>
   </body>
 </html>

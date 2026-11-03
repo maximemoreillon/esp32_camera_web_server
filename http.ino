@@ -33,18 +33,8 @@ class AsyncFrameResponse: public AsyncAbstractResponse {
     }
       
     ~AsyncFrameResponse(){
-      // EXPERIMENT FROM HERE
-      Serial.println("GOODBYE AsyncFrameResponse");
-      esp_camera_fb_return(fb);
-      fb = nullptr;
-      // EXPERIMENT TO HERE
-
-      
-      // Destructor: clears frame buffer
-//      if(fb != nullptr) {
-//        Serial.println("GOODBYE FRAME BUFFER");
-//        esp_camera_fb_return(fb);
-//      }
+      // Returns the frame buffer if the response was not sent completely (e.g. client disconnected)
+      if(fb) esp_camera_fb_return(fb);
     }
     
     bool _sourceValid() const { 
@@ -58,6 +48,8 @@ class AsyncFrameResponse: public AsyncAbstractResponse {
     }
       
     size_t _content(uint8_t *buffer, size_t maxLen, size_t index){
+      size_t remaining = fb->len - index;
+      if(maxLen > remaining) maxLen = remaining;
       memcpy(buffer, fb->buf+index, maxLen);
 
       // clear frame buffer
@@ -171,12 +163,17 @@ class AsyncJpegStreamResponse: public AsyncAbstractResponse {
 
 void sendJpg(AsyncWebServerRequest *request){
   Serial.println("[HTTP] /frame requested");
+
+  if(!camera_ready) {
+    request->send(503, "text/plain", "Camera not available");
+    return;
+  }
   
   camera_fb_t * fb = esp_camera_fb_get();
 
   if (fb == NULL) {
     log_e("Camera frame failed");
-    request->send(501);
+    request->send(503);
     return;
   }
 
@@ -200,6 +197,11 @@ void sendJpg(AsyncWebServerRequest *request){
 
 void streamJpg(AsyncWebServerRequest *request){
   Serial.println("[HTTP] /stream requested");
+
+  if(!camera_ready) {
+    request->send(503, "text/plain", "Camera not available");
+    return;
+  }
   AsyncJpegStreamResponse *response = new AsyncJpegStreamResponse();
   
   if(!response){
