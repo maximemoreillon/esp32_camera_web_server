@@ -169,6 +169,12 @@ void sendJpg(AsyncWebServerRequest *request){
     return;
   }
   
+  // Discard the frames captured before the request (see grab mode in camera.ino)
+  for(size_t i = 0; i < camera_fb_count; i++) {
+    camera_fb_t * stale_fb = esp_camera_fb_get();
+    if(stale_fb) esp_camera_fb_return(stale_fb);
+  }
+
   camera_fb_t * fb = esp_camera_fb_get();
 
   if (fb == NULL) {

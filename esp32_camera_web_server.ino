@@ -23,12 +23,13 @@
 
 //Device info
 #define DEVICE_TYPE "camera"
-#define DEVICE_FIRMWARE_VERSION "0.3.0"
+#define DEVICE_FIRMWARE_VERSION "0.3.1"
 
 
 IotKernel iot_kernel(DEVICE_TYPE,DEVICE_FIRMWARE_VERSION); 
 
 bool camera_ready = false;
+size_t camera_fb_count = 1;
 
 
 

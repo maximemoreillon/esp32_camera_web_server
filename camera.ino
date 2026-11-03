@@ -22,8 +22,11 @@ bool camera_init(){
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
 
-  // IMPORTANT: Grabbing latest frame is not enabled by default;
-  config.grab_mode = CAMERA_GRAB_LATEST;
+  // NOTE: CAMERA_GRAB_LATEST keeps the camera capturing continuously, which crashes the ESP32
+  // (TG1WDT_SYS_RESET) when writing to flash, e.g. when saving settings or during OTA updates.
+  // With CAMERA_GRAB_WHEN_EMPTY, the camera stops once all frame buffers are full,
+  // so frames can be stale (see sendJpg)
+  config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
   
   // if PSRAM IC present, init with UXGA resolution and higher JPEG quality
   //                      for larger pre-allocated frame buffer.
@@ -41,6 +44,8 @@ bool camera_init(){
   pinMode(13, INPUT_PULLUP);
   pinMode(14, INPUT_PULLUP);
 #endif
+
+  camera_fb_count = config.fb_count;
 
   // camera init
   esp_err_t err = esp_camera_init(&config);
